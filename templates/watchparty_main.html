@@ -1,0 +1,145 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Watch Party Request
+{% endblock %}
+
+{% block main %}
+    <h1>WATCH PARTY</h1>
+    <p>Watch parties are to be hosted on <a target="_blank" class="darker_link" href="https://kosmi.io/">kosmi.io</a>.</p>
+    <a href='/create-watch-party'><button class="btn btn-primary">Create a Watch Party</button></a>
+    <div class="med-div"></div>
+    <img alt="Watching movie" src="https://i.kym-cdn.com/photos/images/newsfeed/000/917/451/ca2.gif">
+    <div class="med-div"></div>
+    <br>
+    <h2 id="hosting">Hosting</h2>
+    <div class="med-div"></div>
+    <h4>Good to Go!</h4>
+        <table class="table table-light min-width">
+            <thead>
+                <tr>
+                    <th class="max-width">Title</th>
+                    <th class="smaller-width">Date & Time</th>
+                    <th>Message Sent</th>
+                    <th>Participants</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for event in hosting %}
+                <tr>
+                    <td>{{ event.watching }}</td>
+                    <td>{{ event.date }} at {{ event.time }} ET</td>
+                    <td class="left">{{ event.message }}</td>
+                    <td>{{ event.participants }}</td>
+                    <td>
+                        <form action="/watch-party-cancel" method="post">
+                            <div class="form-group">
+                                <input type="hidden" id="remove_watchparty" name="remove_watchparty" value="{{ event.host }}X{{ event.id }}">
+                                <button class="btn btn-danger" type="submit">Cancel</button>
+                            </div>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    <div class="med-div"></div>
+    <h4>Pending</h4>
+        <table class="table table-light min-width">
+            <thead>
+                <tr>
+                    <th class="max-width">Title</th>
+                    <th class="smaller-width">Date & Time</th>
+                    <th>Participants</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for event in allPending %}
+                <tr>
+                    <td>{{ event.watching }}</td>
+                    <td>{{ event.date }} at {{ event.time }} ET</td>
+                    <td>{{ event.participants }}</td>
+                    <td>
+                        <form action="/watch-party-cancel" method="post">
+                            <div class="form-group">
+                                <input type="hidden" id="remove_watchparty" name="remove_watchparty" value="{{ event.host }}X{{ event.id }}">
+                                <button class="btn btn-danger" type="submit">Cancel</button>
+                            </div>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    <div class="med-div"></div>
+    <h4>All Invited Unavailable</h4>
+        <table class="table table-light min-width">
+            <thead>
+                <tr>
+                    <th class="max-width">Title</th>
+                    <th class="max-width">Date & Time</th>
+                    <th>WeebTube Message</th>
+                    <th class="max-width"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if noneAvailable %}
+                    {% for event in noneAvailable %}
+                    <tr>
+                        <td>{{ event.watching }}</td>
+                        <td>{{ event.date }} at {{ event.time }} ET</td>
+                        <td class="left">It looks like you need to reschedule! Cancel this watch party and make a new one!</td>
+                        <td>
+                            <form action="/watch-party-cancel" method="post">
+                                <div class="form-group">
+                                    <input type="hidden" id="remove_watchparty" name="remove_watchparty" value="{{ event.host }}X{{ event.id }}">
+                                    <button class="btn btn-danger" type="submit">Cancel</button>
+                                </div>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% endif %}
+            </tbody>
+        </table>
+    <div class="large-div"></div>
+    <h2 id="participating">Participating</h2>
+        <table class="table table-light min-width">
+            <thead>
+                <tr>
+                    <th class="max-width">Host</th>
+                    <th class="max-width">Title</th>
+                    <th class="smaller-width">Date & Time</th>
+                    <th>Invite Message</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for event in joining %}
+                <tr>
+                    <td>
+                        <a class="darker_link" href="/profile/{{ event.host_name }}">
+                            <img src="{{ event.host_pfp }}" width=60 height=70>
+                            <br>
+                            {{ event.host_name }}
+                        </a>
+                    </td>
+
+                    <td>{{ event.watching }}</td>
+                    <td>{{ event.date }}</td>
+                    <td class="left">{{ event.message }}</td>
+                    <td>
+                        <form action="/watch-party-cancel" method="post">
+                            <div class="form-group">
+                                <input type="hidden" id="remove-watch-party" name="remove_watchparty" value="{{ event.host }}X{{ event.id }}">
+                                <button class="btn btn-danger" type="submit">Cancel</button>
+                            </div>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+{% endblock %}

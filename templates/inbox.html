@@ -1,0 +1,136 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Inbox
+{% endblock %}
+
+{% block main %}
+    <div class="form-group">
+        <a href="#friend_req"><button class="btn btn-secondary">Friend Requests</button></a>
+        <a href="#watch_party"><button class="btn btn-secondary">Watch Party Requests</button></a>
+        <a href="#messages"><button class="btn btn-secondary">Messages</button></a>
+    </div>
+    <br>
+    <div class="form-group">
+       <a href="/compose-message"><button class="btn btn-primary">Compose Message</button></a>
+        <a href="/sent-messages"><button class="btn btn-primary">Sent Messages</button></a>
+        <!-- Image Source: https://www.pngwing.com/en/free-png-nfdmv -->
+        <img alt="Anime girl" src="https://i.imgur.com/0MWy2SN.png" width=250>
+    </div>
+    <br>
+    <h2 id="friend_req">Friend Requests</h2>
+
+    <table class="table table-light min-width">
+        <thead>
+            <th class="max-width">User</th>
+            <th class="avg-width">Date Requested</th>
+            <th></th>
+        </thead>
+        <tbody>
+            {% for user in friend_requests %}
+                <tr>
+                    <td>
+                        <a class="darker_link" href="/profile/{{ user.username }}">
+                            <img src="{{ user.pfp_url }}" width=60 height=70>
+                            <br>
+                            {{ user.username }}
+                        </a>
+                    </td>
+                    <td>{{ user.friend_date }}</td>
+                    <td>
+                        <form action="/friend-requests" method="post">
+                            <div class="form-group">
+                                <input type="hidden" id="request" name="request" value="{{ user.id }}">
+                                <button name="response" class="btn btn-success" type="submit" value="accept">Accept</button>
+                                <button name="response" class="btn btn-danger" type="submit" value="decline">Decline</button>
+                            </div>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="large-div"></div>
+    <h2 id="watch_party">Watch Party Requests</h2>
+    <table class="table table-light min-width">
+        <thead>
+            <th class="max-width">User</th>
+            <th>Invite Message</th>
+            <th class="small-width">Event Details</th>
+            <th class="smaller-width">Date Requested</th>
+            <th></th>
+        </thead>
+        <tbody>
+            {% for party_invite in watch_party_requests %}
+            <tr>
+                <td>
+                    <a class="darker_link" href="/profile/{{ party_invite.host }}">
+                        <img src="{{ party_invite.pfp_url }}" width=60 height=70>
+                        <br>
+                            {{ party_invite.host }}
+                    </a>
+                </td>
+                <td class="left">{{ party_invite.message }}</td>
+                <td class="left">
+                    Watching: {{ party_invite.watching }}
+                    <br>
+                    <br>
+                    Time: {{ party_invite.date }} at {{ party_invite.time }} ET
+                </td>
+                <td>{{ party_invite.date_created }}</td>
+                    <td>
+                        <form action="/watch-party-requests" method="post">
+                            <div class="form-group">
+                                <input type="hidden" id="request" name="request" value="{{ party_invite.id }}">
+                                <button name="response" class="btn btn-success" type="submit" value="accept">Accept</button>
+                                <div class="small-div"></div>
+                                <button name="response" class="btn btn-danger" type="submit" value="decline">Decline</button>
+                            </div>
+                        </form>
+                    </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="large-div"></div>
+    <h2 id="messages">Messages</h2>
+
+    <table class="table table-light min-width">
+        <thead>
+            <th class="max-width">Sender</th>
+            <th class="avg-width">Message</th>
+            <th></th>
+            <th></th>
+        </thead>
+        <tbody>
+            {% for message in messages %}
+                <tr>
+                    <td>
+                        <a class="darker_link" href="/profile/{{ message.username }}">
+                            <img src="{{ message.pfp_url }}" width=60 height=70>
+                            <br>
+                            From: {{ message.username }}
+                        </a>
+                    </td>
+                    <td>
+                        <p class="left"><strong>Subject:</strong> {{ message.subject }}</p>
+
+                        <p class="left">{{ message.message }}</p>
+                        <br>
+                        <p><strong>Sent on</strong> {{ message.date }}</p>
+                    </td>
+                    <td>
+                        <form action="/remove-messages" method="post">
+                            <div class="form-group">
+                                <button name="delete" class="btn btn-danger" type="submit" value="{{ message.id }}">Remove</button>
+                            </div>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

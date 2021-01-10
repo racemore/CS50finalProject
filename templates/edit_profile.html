@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Edit Profile
+{% endblock %}
+
+{% block main %}
+
+        <form action="/edit-profile" method="post">
+                <h4>Update profile picture</h4>
+
+                <div class="form-group">
+                        <input type="text" autocomplete="off" autofocus id="pfp" name="pfp" placeholder="Enter a valid image url (.png, .jpeg, etc)" required = "required" value="{{ user_info['pfp_url'] }}">
+                </div>
+                <br />
+                <h4>Edit bio</h4>
+                        <div class="form-group">
+                                <textarea id="bio-edit" name="bio" placeholder="Enter bio" maxLength=370>{{ user_info['bio'] }}</textarea>
+                        </div>
+                <br />
+                <h4>Date joined</h4>
+                        <div class="form-group">
+                                <input type="text" id="date-joined" name="date-joined" value="{{ user_info['date_joined'] }}" disabled>
+                        </div>
+                <br />
+                <h4>Gender</h4>
+                <div class="form-group">
+                        <select id="gender" name="gender">
+                                {% if user_info['gender'] is not none %}
+                                <option value="{{ user_info['gender'] }}" selected>{{ user_info['gender'] }}</option>
+                                {% else %}
+                                <option value="previous" selected disabled>Gender</option>
+                                {% endif %}
+
+                                {% for gender in genders %}
+                                        {% if gender != user_info['gender'] %}
+                                                <option value="{{ gender }}">{{ gender }}</option>
+                                        {% endif %}
+                                {% endfor %}
+                        </select>
+                </div>
+                <br />
+                <h4>Birthday</h4>
+                <div class="form-group">
+                        <input type="date" id="birthday" name="birthday" min="1910-01-01" max="{{ current_date }}" value="{{ user_info['bday'] }}">
+                </div>
+                <br />
+                <input class="btn btn-primary" type="submit" value="Update Profile">
+        </form>
+
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+
+{% block title %}
+{{ username }}'s Favorites
+{% endblock %}
+
+
+{% block main %}
+    {% if isLoggedInUser %}
+        <a href='/add-favorites'><button class="btn btn-primary">Add Favorites</button></a>
+        <a href='/remove-favorites'><button class="btn btn-primary">Remove Favorites</button></a>
+    {% endif %}
+    <div class="med-div"></div>
+    <!-- Image source: https://www.hiclipart.com/free-transparent-background-png-clipart-lxkpq -->
+    <h1>{{ username }}'s Favorite Anime <img src="https://i.imgur.com/fESGH0Z.png" alt="Happy chibi" width=250></h1>
+    <br>
+
+    <table class="table table-light min-width">
+        <thead>
+            <tr>
+                <th class="max-width">Cover</th>
+                <th class="max-width">Title</th>
+                <th class="max-width">Episodes</th>
+                <th class="max-width">Season Aired</th>
+                <th class="max-width">Genre(s)</th>
+            </tr>
+        </thead>
+        <tbdody>
+            {% for anime in favorites %}
+                <tr>
+                    <td><img src="{{ anime['image_url'] }}" alt="Cover Image" width=150 height=200></td>
+                    <td>{{ anime['title'] }}</td>
+                    <td>{{ anime['episodes'] }}</td>
+                    <td>{{ anime['season'] }}</td>
+                    <td class="left">{{ anime['genre'] }}</td>
+
+                </tr>
+            {% endfor %}
+        </tbdody>
+    </table>
+
+{% endblock %}

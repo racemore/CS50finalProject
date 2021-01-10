@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Sent Messages
+{% endblock %}
+
+
+{% block main %}
+
+    <p><a class="darker_link" href="/inbox">Back to inbox</a></p>
+
+    <table class="table table-light min-width">
+        <thead>
+            <th class="max-width">Recipient</th>
+            <th class="avg-width">Message</th>
+            <th></th>
+        </thead>
+        <tbody>
+            {% for message in messages %}
+                <tr>
+                    <td>
+                        <a class="darker_link" href="/profile/{{ message.username }}">
+                            <img src="{{ message.pfp_url }}" width=60 height=70>
+                            <br>
+                            To: {{ message.username }}
+                        </a>
+                    </td>
+                    <td>
+                        <p class="left"><strong>Subject:</strong> {{ message.subject }}</p>
+
+                        <p class="left">{{ message.message }}</p>
+                        <br>
+                        <p><strong>Sent on</strong> {{ message.date }}</p>
+                    </td>
+                    <td>
+                        <form action="/sent-messages" method="post">
+                            <div class="form-group">
+                                <button name="delete" class="btn btn-danger" type="submit" value="{{ message.id }}">Remove</button>
+                            </div>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+{% endblock %}

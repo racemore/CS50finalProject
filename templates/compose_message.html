@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Compose Message
+{% endblock %}
+
+
+{% block main %}
+
+    <form action="/compose-message" method="post">
+        <div class="form-group">
+            <label for="friend"><strong>To:&ensp;</strong></label>
+            <select name="friend">
+                <option disabled selected value="">Friend</option>
+                {% for friend in friends %}
+                    <option value="{{ friend.id }}" class="form-control">{{ friend.username }}</option></option>
+                {% endfor %}
+            </select>
+        </div>
+        <br />
+        <div class="form-group">
+            <label for="subject"><strong>Subject:&ensp;</strong></label>
+            <input type="text" autocomplete="off" autofocus id="subject" name="subject" placeholder="Max 40 characters" maxlength="40">
+        </div>
+        <br />
+        <div class="form-group">
+            <textarea id="msg" name="msg" placeholder="Enter message. Max Character Length: 400" maxLength=400 required></textarea>
+        </div>
+        <br />
+        <input class="btn btn-primary" type="submit" value="Send">
+    </form>
+
+{% endblock %}

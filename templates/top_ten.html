@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block main %}
+        <div id="welcome-alert" class="alert fade show" role="alert">
+          <h3 class="alert-heading blue">Welcome to WeebTube!</h3>
+          <p class="mb-0">Edit your <a class="darker_link" href="/user-profile">profile</a>, <a class="darker_link" href="/community">meet other users</a>, and <a class="darker_link" href="/watch-party">schedule watch parties</a> with your friends!</p>
+          <p class="mb-0">Feel free to check out the top shows on the site as well!</p>
+          <hr>
+          <!-- Image Source: https://en.wikipedia.org/wiki/List_of_Dragon_Ball_characters#/media/File:Dragon_Ball_Cast.PNG -->
+          <img alt="Dragon Ball characters" src="https://i.imgur.com/B4fx6dR.png" class="img">
+        </div>
+        <div class="large-div"></div>
+        <div class="section">
+                <h1>TOP SHOWS</h1>
+                <hr>
+        </div>
+        <!-- Source: https://www.hiclipart.com/free-transparent-background-png-clipart-frbsi -->
+        <img alt="Anime Banner" src="https://i.imgur.com/8fYikUf.png" width=600>
+        <table class="table table-light min-width">
+            <thead>
+                <tr>
+                    <th scope="col">Rank</th>
+                    <th scope="col">Cover</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Episodes</th>
+                    <th scope="col">Genre</th>
+                    <th scope="col">Rating</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for show in shows %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td><img alt="Cover" src="{{show.image_url}}" height=200 width=140 border=3></td>
+                        <td>{{ show.title }}</td>
+                        <td>{{ show.episodes }}</td>
+                        <td>{{ show.genre }}</td>
+                        <td>{{ show.rating }} </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+{% endblock %}

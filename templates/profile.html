@@ -1,0 +1,93 @@
+{% extends "layout.html" %}
+
+{% block title %}
+{{ user_info['username'] }}'s Profile
+{% endblock %}
+
+{% block main %}
+    <div id="head" class="profile-sec">
+        <h1>{{ user_info.username }}'s Profile
+            {% if isLoggedInUser %}
+                <a href='/edit-profile'><button class="btn btn-primary btn-right">Edit Profile</button></a>
+            {% endif %}
+        </h1>
+    </div>
+
+    <br>
+
+    <div class="profile-sec min-width">
+        <div id="user-info">
+            <img id=pfp-pic src="{{ user_info.pfp_url }}" alt="Profile Picture">
+            <br>
+            <p><strong>Date Joined:</strong> {{ user_info.date_joined }}</p>
+            {% if user_info.gender is not none and user_info.gender != 'Prefer not to say' %}
+                <p><strong>Gender:</strong> {{ user_info.gender }}</p>
+            {% endif %}
+            {% if user_info.bday is not none %}
+                <p><strong>Birthday:</strong> {{ user_info.bday }}</p>
+            {% endif %}
+        </div>
+
+        <div id="bio">
+                <p>{{ user_info.bio }}</p>
+        </div>
+    </div>
+
+    <div class="large-div"></div>
+
+    <br>
+
+    <div class="profile-sec min-width">
+        <h2>Favorite Anime
+        <a href="/favorites/{{ user_info.username }}"><button class="btn btn-primary btn-right">View All</button></a>
+        </h2>
+
+        <table id="prof-fav">
+            <tbody>
+                <thead>
+                    {% for favorite in favorites %}
+                        <th>
+                            <img src="{{ favorite.image_url }}" alt="Cover of {{ favorite.title }}" height="280" width="200">
+                        </th>
+                    {% endfor %}
+                </thead>
+                <tr>
+                    {% for favorite in favorites %}
+                        <td class="prof-col-width">
+                            {{ favorite.title }}
+                        </td>
+                    {% endfor %}
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <br>
+
+    <div class="profile-sec min-width">
+        <h2>Recent Activity
+        <a href="/history/{{ user_info.username }}"><button class="btn btn-primary btn-right">View All</button></a>
+        </h2>
+
+        <table class="table table-light min-width">
+            <thead>
+                <tr>
+                    <th scope="col">Title</th>
+                    <th scope="col">Rating</th>
+                    <th scope="col">Comment</th>
+                    <th scope="col">Date/Time</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for show in show_history %}
+                <tr>
+                    <td>{{ show.title }}</td>
+                    <td>{{ show.rating }}</td>
+                    <td>{{ show.comment }}</td>
+                    <td>{{ show.time }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

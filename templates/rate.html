@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Rate A Show
+{% endblock %}
+
+{% block main %}
+
+    <form action="/rate" method="post">
+        <div class="form-group">
+            <input list="lists" autocomplete="off" autofocus class="form-control" id="rank-show" name="title" placeholder="Enter a valid title" required = "required">
+            <datalist id="lists"></datalist>
+        </div>
+        <div id="rating-number" class="input-group">
+          <input type="number" class="form-control" placeholder="Rate" name="rate" min="0" max="10" required="required">
+          <div class="input-group-append">
+            <span class="input-group-text">out of 10</span>
+          </div>
+        </div>
+
+        <div class="input-group large-comment">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Comment</span>
+          </div>
+          <textarea class="form-control" placeholder="Optional; Max Character Length: 200" maxlength="200" name="comment"></textarea>
+        </div>
+        <div class="med-div"></div>
+        <button class="btn btn-primary" type="submit">Rate</button>
+    </form>
+
+    <script crossorigin="anonymous" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+    <!-- Source for this idea: https://stackoverflow.com/questions/14711552/external-javascript-file-is-not-getting-added-when-running-on-flask -->
+    <script type="text/javascript" src="{{ url_for('static', filename='script.js') }}"></script>
+
+    <script>titleSearch('#rank-show')</script>
+
+{% endblock %}

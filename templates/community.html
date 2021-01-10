@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Community
+{% endblock %}
+
+
+{% block main %}
+    <!-- Image Source: https://nl.pinterest.com/pin/623607879625782965/ -->
+    <h1>WeebTube Community<img src="https://i.imgur.com/jyOyLuP.png" alt="Anime characters" width=300></h1>
+    <br>
+    <table class="table table-light min-width">
+        <thead>
+            <th></th>
+            <th class="max-width">User</th>
+            <th class="max-width">Bio</th>
+            <th class="max-width">Date Joined</th>
+            <th></th>
+        </thead>
+        <tbody>
+            {% for user in users %}
+                <tr>
+                    <td><img alt="Profile Pic" src="{{ user['pfp_url'] }}" width=170 height=200></td>
+                    <td>{{ user['username'] }}</td>
+                    <td class="left">{{ user['bio'] }}</td>
+                    <td>{{ user['date_joined'] }}</td>
+                    <td><a href="/profile/{{ user['username'] }}"><button class="btn btn-primary">Visit Profile</button></a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
